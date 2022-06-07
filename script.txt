@@ -1,0 +1,3 @@
+asda
+show
+insert 1 1

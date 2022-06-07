@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="748.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox prefHeight="42.0" prefWidth="600.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="53.0" prefWidth="600.0" text="%info" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="53.0" prefWidth="600.0" text="%information about the collection" textAlignment="CENTER" wrapText="true" />
+         </children>
+      </HBox>
+      <HBox prefHeight="42.0" prefWidth="600.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="53.0" prefWidth="600.0" text="%help" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="53.0" prefWidth="600.0" text="%information about commands" textAlignment="CENTER" wrapText="true" />
+         </children>
+      </HBox>
+      <HBox prefHeight="43.0" prefWidth="600.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="53.0" prefWidth="600.0" text="%show" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="53.0" prefWidth="600.0" text="%shows map representation of collection" textAlignment="CENTER" wrapText="true" />
+         </children>
+      </HBox>
+      <HBox prefHeight="40.0" prefWidth="600.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="53.0" prefWidth="600.0" text="%insert (key) {element}" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="53.0" prefWidth="600.0" text="%to add an element to the collection" textAlignment="CENTER" wrapText="true" />
+         </children>
+      </HBox>
+      <HBox prefHeight="37.0" prefWidth="600.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="53.0" prefWidth="600.0" text="%clear" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="53.0" prefWidth="600.0" text="%to delete all elements from the collection" textAlignment="CENTER" wrapText="true" />
+         </children>
+      </HBox>
+      <HBox prefHeight="44.0" prefWidth="600.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="53.0" prefWidth="600.0" text="%execute script (file path)" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="53.0" prefWidth="600.0" text="%to execute command sequence" textAlignment="CENTER" wrapText="true" />
+         </children>
+      </HBox>
+      <HBox prefHeight="44.0" prefWidth="600.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="53.0" prefWidth="600.0" text="%count greater semester (semester)" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="53.0" prefWidth="600.0" text="%to count elements that have bigger semester" textAlignment="CENTER" wrapText="true" />
+         </children>
+      </HBox>
+      <HBox prefHeight="44.0" prefWidth="600.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="53.0" prefWidth="600.0" text="%filter less students count (students count)" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="53.0" prefWidth="600.0" text="%to filter all elements with lower students count" textAlignment="CENTER" wrapText="true" />
+         </children>
+      </HBox>
+      <HBox prefHeight="44.0" prefWidth="600.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="53.0" prefWidth="600.0" text="%remove greater key (key)" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="53.0" prefWidth="600.0" text="%to remove all elements with greater key" textAlignment="CENTER" wrapText="true" />
+         </children>
+      </HBox>
+      <HBox prefHeight="44.0" prefWidth="600.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="53.0" prefWidth="600.0" text="%log out" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="53.0" prefWidth="600.0" text="%to return to login page" textAlignment="CENTER" wrapText="true" />
+         </children>
+      </HBox>
+      <HBox prefHeight="44.0" prefWidth="600.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="53.0" prefWidth="600.0" text="%remove key (key)" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="53.0" prefWidth="600.0" text="%to remove element by key" textAlignment="CENTER" wrapText="true" />
+         </children>
+      </HBox>
+      <HBox prefHeight="44.0" prefWidth="600.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="53.0" prefWidth="600.0" text="%remove lower {element}" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="53.0" prefWidth="600.0" text="%to remove all elements that are lower than given" textAlignment="CENTER" wrapText="true" />
+         </children>
+      </HBox>
+      <HBox prefHeight="44.0" prefWidth="600.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="53.0" prefWidth="600.0" text="%replace if greater (key) {element}" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="53.0" prefWidth="600.0" text="%to replace the element if the new one is greater" textAlignment="CENTER" wrapText="true" />
+         </children>
+      </HBox>
+      <HBox prefHeight="44.0" prefWidth="600.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="53.0" prefWidth="600.0" text="%update (id) {element}" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="53.0" prefWidth="600.0" text="%to update the element" textAlignment="CENTER" wrapText="true" />
+         </children>
+      </HBox>
+   </children>
+</VBox>

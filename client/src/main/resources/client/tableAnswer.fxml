@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="1084.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.TableAnswerController">
+   <children>
+      <TableView fx:id="table" layoutY="-2.0" prefHeight="407.0" prefWidth="1084.0" AnchorPane.bottomAnchor="-5.333333333333314" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-2.0">
+         <columns>
+            <TableColumn fx:id="creationDate" prefWidth="75.0" text="%creation date" />
+            <TableColumn fx:id="id" prefWidth="33.333343505859375" text="%id" />
+            <TableColumn fx:id="name" prefWidth="97.99999618530273" text="%name" />
+            <TableColumn fx:id="coordinates" prefWidth="41.333343505859375" text="%coordinates">
+               <columns>
+                  <TableColumn fx:id="coordinatesX" prefWidth="32.0" text="x" />
+                  <TableColumn fx:id="coordinatesY" prefWidth="43.333343505859375" text="y" />
+               </columns>
+            </TableColumn>
+            <TableColumn fx:id="studentsCount" prefWidth="74.66670227050781" text="%students count" />
+            <TableColumn fx:id="expelledStudents" minWidth="0.0" prefWidth="56.66668701171875" text="%expelled students" />
+            <TableColumn fx:id="shouldBeExpelled" prefWidth="84.66668701171875" text="%should be expelled" />
+            <TableColumn fx:id="semester" prefWidth="75.0" text="%semester" />
+            <TableColumn fx:id="admin" prefWidth="430.6665954589844" text="%admin">
+               <columns>
+                  <TableColumn fx:id="adminName" prefWidth="75.0" text="%name" />
+                  <TableColumn fx:id="height" prefWidth="75.0" text="%height" />
+                  <TableColumn fx:id="hairColor" prefWidth="75.0" text="%hair color" />
+                  <TableColumn fx:id="nationality" prefWidth="75.0" text="%nationality" />
+                  <TableColumn fx:id="location" prefWidth="75.0" text="%location">
+                     <columns>
+                        <TableColumn fx:id="locationX" prefWidth="45.33331298828125" text="x" />
+                        <TableColumn fx:id="locationY" prefWidth="45.33331298828125" text="y" />
+                        <TableColumn fx:id="locationZ" prefWidth="37.99981689453125" text="z" />
+                     </columns>
+                  </TableColumn>
+               </columns>
+            </TableColumn>
+            <TableColumn fx:id="user" prefWidth="147.3333740234375" text="%user" />
+         </columns>
+      </TableView>
+   </children>
+</AnchorPane>

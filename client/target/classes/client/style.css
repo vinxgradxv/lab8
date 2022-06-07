@@ -1,0 +1,44 @@
+.root {
+    -fx-background-color: #ff849f;
+}
+
+/*
+    Login Stage
+*/
+#Log_in_button {
+    -fx-background-color: #24a0ed;
+    -fx-text-fill: White;
+    -fx-border-radius: 25;
+    -fx-border-width: 8;
+    -fx-border-color: #24a0ed;
+    -fx-column-halignment: center;
+}
+
+#Sign_up_button {
+    -fx-background-color: #24a0ed;
+    -fx-text-fill: White;
+    -fx-border-radius: 25;
+    -fx-border-width: 2;
+    -fx-border-color: #24a0ed;
+    -fx-column-halignment: center;
+}
+
+#Login_field{
+    -fx-background-color: #24a0ed;
+    -fx-font-size: 14px;
+    -fx-text-fill: azure;
+    -fx-column-halignment: center;
+}
+
+#Password_field {
+    -fx-background-color: #24a0ed;
+    -fx-font-size: 14px;
+    -fx-text-fill: azure;
+    -fx-column-halignment: center;
+}
+
+
+
+/*
+    Table Stage
+ */
