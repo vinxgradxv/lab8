@@ -42,10 +42,10 @@ public class RemoveKeyCommand extends Command{
         Long longParam = (Long) param;
         if (studyGroupCollection.getStudyGroupHashTable().get(longParam).getUser().getLogin().equals(user.getLogin())) {
             if (!studyGroupCollection.remove(longParam)) {
-                return new Response(ResponseType.ERROR, "В коллекции нет элемента с таким ключом", user, null);
+                return new Response(ResponseType.ERROR, "error", user, null);
             }
-            return new Response(ResponseType.RESULT, "Элемент был удален из коллекции", user, null);
+            return new Response(ResponseType.RESULT, "success", user, null);
         }
-        return new Response(ResponseType.ERROR, "У вас нет прав на удаление этого элемента", user, null);
+        return new Response(ResponseType.ERROR, "error", user, null);
     }
 }

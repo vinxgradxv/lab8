@@ -6,10 +6,13 @@ import data.StudyGroup;
 import data.User;
 import exceptions.NullValueException;
 import exceptions.NumberOutOfBoundsException;
+import sun.nio.ch.ThreadPool;
 import utils.*;
 
 import java.io.*;
 import java.net.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Client {
     private final static int PORT = 5432;
@@ -21,6 +24,8 @@ public class Client {
     private static SendManager sendManager;
     private static ReceiveManager receiveManager;
     private static User currentUser = null;
+
+
 
     private static byte[] buf;
 
@@ -142,7 +147,7 @@ public class Client {
 
     public Response update(Long key, StudyGroup studyGroup){
         try {
-            Message message = new Message(new InsertCommand(), key, studyGroup, currentUser);
+            Message message = new Message(new UpdateCommand(), key, studyGroup, currentUser);
             sendManager.sendMessage(message);
             return receiveManager.receiveMessage();
         } catch (IOException e) {
@@ -166,10 +171,36 @@ public class Client {
         return null;
     }
 
+    public Response removeKey(Long key){
+        try {
+            Message message = new Message(new RemoveKeyCommand(), key, null, currentUser);
+            sendManager.sendMessage(message);
+            return receiveManager.receiveMessage();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     public Response removeGreaterKey(Long key){
         try {
             Message message = new Message(new RemoveGreaterKeyCommand(), key, null, currentUser);
+            sendManager.sendMessage(message);
+            return receiveManager.receiveMessage();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Response removeLower(StudyGroup studyGroup){
+        try {
+            Message message = new Message(new RemoveLowerCommand(), null, studyGroup, currentUser);
             sendManager.sendMessage(message);
             return receiveManager.receiveMessage();
         } catch (IOException e) {

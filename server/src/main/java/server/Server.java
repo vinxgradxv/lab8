@@ -66,7 +66,7 @@ public class Server {
                 logger.fatal(e.getMessage() + ", получите права на чтения файла или запустите программу с другим файлом");
             else logger.fatal("Файл " + path + "Не найден");
         } catch (SQLException e) {
-            logger.error("Произошла ошибка при подключении к базе данных");
+            logger.error(e.getMessage());
         } catch (NullValueException e) {
             e.printStackTrace();
         }

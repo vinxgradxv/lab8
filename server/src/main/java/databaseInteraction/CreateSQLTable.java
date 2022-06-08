@@ -57,8 +57,9 @@ public class CreateSQLTable {
     }
 
     static void createStudyGroup(Connection connection) throws SQLException {
-        final String createTableQuery = "CREATE TABLE IF NOT EXISTS studyGroups (" +
-                                        " id SERIAL PRIMARY KEY," +
+        final String deleteQuery = "DROP TABLE IF EXISTS studyGroups1;";
+        final String createTableQuery = "CREATE TABLE IF NOT EXISTS studyGroups1 (" +
+                                        " id bigint PRIMARY KEY," +
                                         " name varchar(50) NOT NULL," +
                                         " coordinates int NOT NULL," +
                                         " creationDate TIMESTAMP NOT NULL," +
@@ -76,6 +77,7 @@ public class CreateSQLTable {
                                         " FOREIGN KEY(owner) REFERENCES users(login));";
 
         Statement statement = connection.createStatement();
+        //statement.executeUpdate(deleteQuery);
         statement.execute(createTableQuery);
     }
 

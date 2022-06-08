@@ -41,18 +41,23 @@ public class SendManager {
     }
 
     public void sendResponse(Response result) throws IOException {
-        InetSocketAddress inetSocketAddress = new InetSocketAddress(clientAddress, port);
-        channel = DatagramChannel.open();
-        channel.configureBlocking(false);
-        logger.info("Параметры канала заданы");
-        buf = serialize(result);
-        byte[] bufSize = serialize(buf.length);
-        ByteBuffer byteBufferSize = ByteBuffer.wrap(bufSize);
-        channel.send(byteBufferSize, inetSocketAddress);
-        logger.info("Длина ответа отправлена");
-        ByteBuffer byteBuffer = ByteBuffer.wrap(buf);
-        channel.send(byteBuffer, inetSocketAddress);
-        logger.info("Ответ отправлен");
+        try {
+            InetSocketAddress inetSocketAddress = new InetSocketAddress(clientAddress, port);
+            channel = DatagramChannel.open();
+            channel.configureBlocking(false);
+            logger.info("Параметры канала заданы");
+            buf = serialize(result);
+            byte[] bufSize = serialize(buf.length);
+            ByteBuffer byteBufferSize = ByteBuffer.wrap(bufSize);
+            Thread.sleep(5000);
+            channel.send(byteBufferSize, inetSocketAddress);
+            logger.info("Длина ответа отправлена");
+            ByteBuffer byteBuffer = ByteBuffer.wrap(buf);
+            channel.send(byteBuffer, inetSocketAddress);
+            logger.info("Ответ отправлен");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 }

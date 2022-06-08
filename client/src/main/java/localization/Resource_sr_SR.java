@@ -89,7 +89,9 @@ public class Resource_sr_SR extends ListResourceBundle {
             {"кључ", "кључ"},
             {"input students count", "Улазни студенти се рачунају"},
             {"input key", "кључ за унос"},
-            {"success", "успех"}
+            {"success", "успех"},
+            {"settings", "Подешавања"},
+            {"filtration", "филтрација"}
 
 
 

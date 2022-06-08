@@ -61,7 +61,7 @@ public class UpdateCommand extends Command{
                 }
                 else return new Response(ResponseType.ERROR, "Элемент не был изменен", user, null);
             } else {
-                return new Response(ResponseType.ERROR, "У вас нет прав на изменение данного элемента", user, null);
+                return null;
             }
         }
         else{

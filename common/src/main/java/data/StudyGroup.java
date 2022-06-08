@@ -75,7 +75,6 @@ public class StudyGroup implements Comparable<StudyGroup>, Serializable {
         setExpelledStudents(expelledStudents); setShouldBeExpelled(shouldBeExpelled);
         setSemesterEnum(semesterEnum); setGroupAdmin(groupAdmin);
         creationDate = LocalDateTime.now();
-        id = 0L;
     }
 
     public User getUser(){

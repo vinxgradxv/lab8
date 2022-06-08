@@ -89,7 +89,9 @@ public class Resource_ru_RU extends ListResourceBundle {
             {"key", "ключ"},
             {"input students count", "введите количество студентов"},
             {"input key", "введите ключ"},
-            {"success", "успешно"}
+            {"success", "успешно"},
+            {"settings", "настройки"},
+            {"filtration", "фильтрация"}
 
 
 

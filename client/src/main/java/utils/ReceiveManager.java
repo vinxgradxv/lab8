@@ -16,6 +16,7 @@ public class ReceiveManager {
     }
 
     public synchronized Response receiveMessage() throws IOException, ClassNotFoundException {
+        setTimeout(10000);
         DatagramPacket datagramPacketSize = new DatagramPacket(buff, buff.length);
         socket.receive(datagramPacketSize);
         Integer size = (Integer) deserialize(datagramPacketSize.getData());

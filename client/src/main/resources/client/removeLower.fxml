@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="246.0" prefWidth="1101.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.RemoveLowerController">
+   <children>
+      <VBox prefHeight="199.0" prefWidth="47.0">
+         <children>
+            <Label prefHeight="57.0" prefWidth="67.0" text="%key" />
+            <TextField fx:id="keyField" />
+            <Label fx:id="keyError" prefHeight="46.0" prefWidth="67.0" visible="false" />
+         </children>
+      </VBox>
+      <VBox prefHeight="400.0" prefWidth="55.0">
+         <children>
+            <Label prefHeight="57.0" prefWidth="67.0" text="%name" />
+            <TextField fx:id="nameField" />
+            <Label fx:id="nameError" prefHeight="46.0" prefWidth="67.0" visible="false" />
+         </children>
+      </VBox>
+      <VBox prefHeight="400.0" prefWidth="67.0">
+         <children>
+            <Label prefHeight="57.0" prefWidth="67.0" text="%coordinates" />
+            <TextField fx:id="coordinatesXField" />
+            <Label fx:id="coordinatesXError" prefHeight="46.0" prefWidth="67.0" text="Label" visible="false" />
+         </children>
+      </VBox>
+      <VBox prefHeight="400.0" prefWidth="67.0">
+         <children>
+            <Label prefHeight="57.0" prefWidth="67.0" text="%coordinates" />
+            <TextField fx:id="coordinatesYField" />
+            <Label fx:id="coordinatesYError" prefHeight="46.0" prefWidth="67.0" text="Label" visible="false" />
+         </children>
+      </VBox>
+      <VBox prefHeight="400.0" prefWidth="92.0">
+         <children>
+            <Label prefHeight="57.0" prefWidth="94.0" text="%students count" />
+            <TextField fx:id="studentsCountField" />
+            <Label fx:id="studentsCountError" prefHeight="46.0" prefWidth="67.0" text="Label" visible="false" />
+         </children>
+      </VBox>
+      <VBox prefHeight="400.0" prefWidth="67.0">
+         <children>
+            <Label prefHeight="57.0" prefWidth="67.0" text="%expelled students" />
+            <TextField fx:id="expelledStudentsField" />
+            <Label fx:id="expelledStudentsError" prefHeight="46.0" prefWidth="67.0" text="Label" visible="false" />
+         </children>
+      </VBox>
+      <VBox prefHeight="400.0" prefWidth="67.0">
+         <children>
+            <Label prefHeight="57.0" prefWidth="67.0" text="%should be expelled" />
+            <TextField fx:id="shouldBeExpelledField" />
+            <Label fx:id="shouldBeExpelledError" prefHeight="46.0" prefWidth="67.0" text="Label" visible="false" />
+         </children>
+      </VBox>
+      <VBox prefHeight="400.0" prefWidth="67.0">
+         <children>
+            <Label prefHeight="57.0" prefWidth="67.0" text="%semester" />
+            <TextField fx:id="semesterField" />
+            <Label fx:id="semesterError" prefHeight="46.0" prefWidth="67.0" text="Label" visible="false" />
+         </children>
+      </VBox>
+      <VBox prefHeight="400.0" prefWidth="67.0">
+         <children>
+            <Label prefHeight="57.0" prefWidth="67.0" text="%name" />
+            <TextField fx:id="adminNameField" />
+            <Label fx:id="adminNameError" prefHeight="46.0" prefWidth="67.0" text="Label" visible="false" />
+         </children>
+      </VBox>
+      <VBox prefHeight="400.0" prefWidth="67.0">
+         <children>
+            <Label prefHeight="57.0" prefWidth="67.0" text="%height" />
+            <TextField fx:id="heightField" />
+            <Label fx:id="heightError" prefHeight="46.0" prefWidth="67.0" text="Label" visible="false" />
+         </children>
+      </VBox>
+      <VBox prefHeight="400.0" prefWidth="67.0">
+         <children>
+            <Label prefHeight="57.0" prefWidth="67.0" text="%hair color" />
+            <TextField fx:id="hairColorField" />
+            <Label fx:id="hairColorError" prefHeight="46.0" prefWidth="67.0" text="Label" visible="false" />
+         </children>
+      </VBox>
+      <VBox prefHeight="400.0" prefWidth="67.0">
+         <children>
+            <Label prefHeight="57.0" prefWidth="67.0" text="%nationality" />
+            <TextField fx:id="nationalityField" />
+            <Label fx:id="nationalityError" prefHeight="46.0" prefWidth="67.0" text="Label" visible="false" />
+         </children>
+      </VBox>
+      <VBox prefHeight="400.0" prefWidth="67.0">
+         <children>
+            <Label fx:id="LocationXField" prefHeight="57.0" prefWidth="67.0" text="x" />
+            <TextField fx:id="locationXField" />
+            <Label fx:id="locationXError" prefHeight="46.0" prefWidth="67.0" text="Label" visible="false" />
+         </children>
+      </VBox>
+      <VBox prefHeight="400.0" prefWidth="67.0">
+         <children>
+            <Label prefHeight="57.0" prefWidth="67.0" text="y" />
+            <TextField fx:id="locationYField" />
+            <Label fx:id="locationYError" prefHeight="46.0" prefWidth="67.0" text="Label" visible="false" />
+         </children>
+      </VBox>
+      <VBox prefHeight="400.0" prefWidth="67.0">
+         <children>
+            <Label prefHeight="57.0" prefWidth="67.0" text="z" />
+            <TextField fx:id="locationZField" />
+            <Label fx:id="locationZError" prefHeight="46.0" prefWidth="67.0" text="Label" visible="false" />
+         </children>
+      </VBox>
+      <Button fx:id="sendButton" mnemonicParsing="false" onAction="#onSendButtonAction" prefHeight="246.0" prefWidth="99.0" text="%send" />
+   </children>
+</HBox>

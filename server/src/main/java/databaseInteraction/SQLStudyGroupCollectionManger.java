@@ -39,7 +39,7 @@ public class SQLStudyGroupCollectionManger implements CollectionManager {
     private Hashtable<Long, StudyGroup> deserialize() throws SQLException, FileNotFoundException, NumberOutOfBoundsException, NullValueException {
         Hashtable<Long, StudyGroup> st = new Hashtable<>();
         Statement statement = connectionDB.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM studyGroups");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM studyGroups1");
         while (resultSet.next()){
             StudyGroup studyGroup = mapRowToStudyGroup(resultSet);
             st.put(studyGroup.getId(), studyGroup);
@@ -96,17 +96,19 @@ public class SQLStudyGroupCollectionManger implements CollectionManager {
     }
 
     private void prepareStatStudyGroup(PreparedStatement stat, StudyGroup sg) throws SQLException {
-        final int indexName = 1;
-        final int indexCoordinates = 2;
-        final int indexCreation = 3;
-        final int indexStCount = 4;
-        final int indexExpelled = 5;
-        final int indexShouldBeExp = 6;
-        final int indexSemester = 7;
-        final int indexAdmin = 8;
-        final int indexOwner = 9;
+        final int indexId = 1;
+        final int indexName = 2;
+        final int indexCoordinates = 3;
+        final int indexCreation = 4;
+        final int indexStCount = 5;
+        final int indexExpelled = 6;
+        final int indexShouldBeExp = 7;
+        final int indexSemester = 8;
+        final int indexAdmin = 9;
+        final int indexOwner = 10;
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        stat.setLong(indexId, sg.getId());
         stat.setString(indexName, sg.getName());
         stat.setInt(indexCoordinates, sg.getCoordinates().getId());
         stat.setTimestamp(indexCreation, Timestamp.valueOf(sg.getCreationDate().format(formatter)));
@@ -179,8 +181,8 @@ public class SQLStudyGroupCollectionManger implements CollectionManager {
 
     @Override
     public boolean add(Long key, StudyGroup studyGroup) {
-        String insertStudyGroup = "INSERT INTO studyGroups VALUES (" +
-                                    " default,?,?,?,?,?,?,?::semester,?,?) RETURNING id";
+        String insertStudyGroup = "INSERT INTO studyGroups1 VALUES (" +
+                                    " ?,?,?,?,?,?,?,?::semester,?,?) RETURNING id";
         String insertCoord = "INSERT INTO coord VALUES (" +
                                 " default,?,?) RETURNING id";
         String insertPerson = "INSERT INTO persons VALUES (" +
@@ -213,20 +215,25 @@ public class SQLStudyGroupCollectionManger implements CollectionManager {
             prepareStatStudyGroup(statStudyGroup, studyGroup);
             ResultSet resStudyGroup = statStudyGroup.executeQuery();
             resStudyGroup.next();
-            studyGroup.setId(resStudyGroup.getLong("id"));
             return true;
         } catch (SQLException e){
             System.err.println("Не удалось добавить элемент в бд");
-        } catch (NumberOutOfBoundsException e) {
-            e.printStackTrace();
-        } catch (NullValueException e) {
-            e.printStackTrace();
         }
         return false;
     }
 
     @Override
     public boolean remove(Long key) {
+        try {
+            String deleteQuery = "DELETE FROM studyGroups1 WHERE id=?";
+            PreparedStatement preparedStatement = connectionDB.prepareStatement(deleteQuery);
+            preparedStatement.setLong(1, key);
+            preparedStatement.executeUpdate();
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
@@ -272,7 +279,7 @@ public class SQLStudyGroupCollectionManger implements CollectionManager {
     public int clean() {
         int count = -1;
         try {
-            final String selectGroups = "DELETE FROM studyGroups WHERE owner=?";
+            final String selectGroups = "DELETE FROM studyGroups1 WHERE owner=?";
             PreparedStatement preparedStatement = connectionDB.prepareStatement(selectGroups);
             preparedStatement.setString(1, currentUser.getLogin());
             int rs = preparedStatement.executeUpdate();
@@ -346,7 +353,7 @@ public class SQLStudyGroupCollectionManger implements CollectionManager {
             adminSt.setInt(5, oldGroup.getGroupAdmin().getId());
             adminSt.executeUpdate();
 
-            String updateGroup = "UPDATE studyGroups SET name=?, studentsCount=?, expelledStudents=?, shouldBeExpelled=?, semesterEnum=? WHERE id=?;";
+            String updateGroup = "UPDATE studyGroups1 SET name=?, studentsCount=?, expelledStudents=?, shouldBeExpelled=?, semesterEnum=? WHERE id=?;";
             PreparedStatement groupSt = connectionDB.prepareStatement(updateGroup);
             groupSt.setString(1, newGroup.getName());
             groupSt.setLong(2, newGroup.getStudentsCount());

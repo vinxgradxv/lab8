@@ -45,7 +45,7 @@ public class InsertCommand extends Command{
             Long longParam = (Long) param;
             studyGroup.setUser(user);
             if (studyGroupCollection.getStudyGroupHashTable().containsKey(longParam)) {
-                return new Response(ResponseType.ERROR, "element with this key already exists", user, null);
+                return null;
             }
             boolean res = studyGroupCollection.add(longParam, studyGroup);
             if (res) {

@@ -74,9 +74,17 @@ public class StudyGroupCollection implements CollectionManager {
 
     @Override
     public synchronized boolean add(Long key, StudyGroup studyGroup) {
-        if(sqlManager.add(key, studyGroup)){
-            studyGroupHashtable.put(key, studyGroup);
-            return true;
+        try {
+            studyGroup.setId(key);
+            if (sqlManager.add(key, studyGroup)) {
+                studyGroupHashtable.put(key, studyGroup);
+                return true;
+            }
+            return false;
+        } catch (NumberOutOfBoundsException e) {
+            e.printStackTrace();
+        } catch (NullValueException e) {
+            e.printStackTrace();
         }
         return false;
     }
@@ -86,6 +94,7 @@ public class StudyGroupCollection implements CollectionManager {
         if (!studyGroupHashtable.containsKey(key)){
             return false;
         }
+        sqlManager.remove(key);
         studyGroupHashtable.remove(key);
         return true;
     }
@@ -126,10 +135,12 @@ public class StudyGroupCollection implements CollectionManager {
         if(sqlManager.updateStudyGroup(key, newGroup, oldGroup)) {
             try {
                 oldGroup.setName(newGroup.getName());
+                oldGroup.setCoordinates(newGroup.getCoordinates());
                 oldGroup.setStudentsCount(newGroup.getStudentsCount());
                 oldGroup.setExpelledStudents(newGroup.getExpelledStudents());
                 oldGroup.setShouldBeExpelled(newGroup.getShouldBeExpelled());
                 oldGroup.setSemesterEnum(newGroup.getSemesterEnum());
+                oldGroup.setGroupAdmin(newGroup.getGroupAdmin());
                 studyGroupHashtable.put(key, oldGroup);
                 return true;
             } catch (NumberOutOfBoundsException e) {

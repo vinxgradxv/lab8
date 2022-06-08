@@ -91,7 +91,9 @@ public class Resource_en_US extends ListResourceBundle {
             {"key", "key"},
             {"input students count", "input students count"},
             {"input key", "input key"},
-            {"success", "success"}
+            {"success", "success"},
+            {"settings", "settings"},
+            {"filtration", "filtration"}
     };
 
     @Override

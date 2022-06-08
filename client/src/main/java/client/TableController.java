@@ -6,6 +6,8 @@ import data.Person;
 import data.StudyGroup;
 import javafx.animation.ScaleTransition;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.concurrent.Task;
+import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -24,8 +26,10 @@ import javafx.stage.Modality;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import jdk.jfr.internal.PlatformRecorder;
 import sun.security.provider.Sun;
 import utils.Response;
+import javafx.application.Platform;
 
 import java.awt.event.ActionEvent;
 import java.io.IOException;
@@ -37,6 +41,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.*;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public class TableController implements Initializable {
 
@@ -44,6 +49,9 @@ public class TableController implements Initializable {
 
     @FXML
     protected TableView<StudyGroup> table;
+
+    @FXML
+    protected TableView<StudyGroup> objectTable;
 
     @FXML
     protected Tab mapTab;
@@ -54,6 +62,8 @@ public class TableController implements Initializable {
     @FXML
     protected AnchorPane mapPane;
 
+    @FXML
+    protected Button logOutButton;
     @FXML
     protected TableColumn<StudyGroup, String> id;
     @FXML
@@ -94,6 +104,42 @@ public class TableController implements Initializable {
     protected TableColumn<StudyGroup, String> locationZ;
     @FXML
     protected TableColumn<StudyGroup, String> user;
+    @FXML
+    protected TableColumn<StudyGroup, String> id1;
+    @FXML
+    protected TableColumn<StudyGroup, String> name1;
+    @FXML
+    protected TableColumn<StudyGroup, String> coordinatesX1;
+    @FXML
+    protected TableColumn<StudyGroup, String> coordinatesY1;
+    @FXML
+    protected TableColumn<StudyGroup, String> creationDate1;
+    @FXML
+    protected TableColumn<StudyGroup, String> studentsCount1;
+    @FXML
+    protected TableColumn<StudyGroup, String> expelledStudents1;
+    @FXML
+    protected TableColumn<StudyGroup, String> shouldBeExpelled1;
+    @FXML
+    protected TableColumn<StudyGroup, String> semester1;
+    @FXML
+    protected TableColumn<StudyGroup, String> adminName1;
+    @FXML
+    protected TableColumn<StudyGroup, String> height1;
+    @FXML
+    protected TableColumn<StudyGroup, String> hairColor1;
+    @FXML
+    protected TableColumn<StudyGroup, String> nationality1;
+    @FXML
+    protected TableColumn<StudyGroup, String> locationX1;
+    @FXML
+    protected TableColumn<StudyGroup, String> locationY1;
+    @FXML
+    protected TableColumn<StudyGroup, String> locationZ1;
+    @FXML
+    protected TableColumn<StudyGroup, String> user1;
+
+    private boolean firstTime = true;
 
     private final HashMap<Shape, Long> shapeMap = new HashMap<>();
     private boolean flag = true;
@@ -103,10 +149,12 @@ public class TableController implements Initializable {
 
     private StudyGroup[] studyGroups;
 
+    public static boolean stop = false;
+
     public static boolean isInRequest = false;
 
 
-    private Thread thread = new Thread(this::updateTable);
+    public Thread thread = new Thread(this::updateTable);
 
 
     @Override
@@ -130,6 +178,23 @@ public class TableController implements Initializable {
         locationZ.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(NumberFormat.getInstance(rb.getLocale()).format(cellData.getValue().getGroupAdmin().getLocation().getZ())));
         user.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getUser().getLogin()));
 
+        id1.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(NumberFormat.getInstance(rb.getLocale()).format(cellData.getValue().getId())));
+        name1.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getName()));
+        coordinatesX1.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(NumberFormat.getInstance(rb.getLocale()).format(cellData.getValue().getCoordinates().getX())));
+        coordinatesY1.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(NumberFormat.getInstance(rb.getLocale()).format(cellData.getValue().getCoordinates().getY())));
+        creationDate1.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM).withLocale(rb.getLocale()).format(cellData.getValue().getCreationDate().atZone(ZoneId.systemDefault()))));
+        studentsCount1.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(NumberFormat.getInstance(rb.getLocale()).format(cellData.getValue().getStudentsCount())));
+        expelledStudents1.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(NumberFormat.getInstance(rb.getLocale()).format(cellData.getValue().getExpelledStudents())));
+        shouldBeExpelled1.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(NumberFormat.getInstance(rb.getLocale()).format(cellData.getValue().getShouldBeExpelled())));
+        semester1.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(String.valueOf(cellData.getValue().getSemesterEnum())));
+        adminName1.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getGroupAdmin().getName()));
+        height1.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(NumberFormat.getInstance(rb.getLocale()).format(cellData.getValue().getGroupAdmin().getHeight())));
+        hairColor1.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(String.valueOf(cellData.getValue().getGroupAdmin().getHairColor())));
+        nationality1.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(String.valueOf(cellData.getValue().getGroupAdmin().getNationality())));
+        locationX1.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(NumberFormat.getInstance(rb.getLocale()).format(cellData.getValue().getGroupAdmin().getLocation().getX())));
+        locationY1.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(NumberFormat.getInstance(rb.getLocale()).format(cellData.getValue().getGroupAdmin().getLocation().getY())));
+        locationZ1.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(NumberFormat.getInstance(rb.getLocale()).format(cellData.getValue().getGroupAdmin().getLocation().getZ())));
+        user1.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getUser().getLogin()));
 
         for(StudyGroup st:studyGroups) {
             table.getItems().add(st);
@@ -176,21 +241,25 @@ public class TableController implements Initializable {
             e.printStackTrace();
         }
     }
+    public Stage infoStage;
 
     @FXML
     public void onInfoButtonAction(){
         try {
-            Response response = LoginController.client.getInfo();
-            InfoController.text = response.getMessage();
-            Stage stage = new Stage();
+            infoStage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("info.fxml"), rb);
-            stage.setScene(new Scene(root));
-            stage.setTitle(rb.getString("info"));
-            stage.initModality(Modality.WINDOW_MODAL);
-            stage.show();
+            infoStage.setScene(new Scene(root));
+            FXMLLoader loader = (FXMLLoader) infoStage.getScene().getUserData();
+            loader.getController();
+            infoStage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Thread infoThread = new Thread(() -> {
+            Response response = LoginController.client.getInfo();
+
+            });
+        infoThread.start();
     }
 
     @FXML
@@ -213,8 +282,9 @@ public class TableController implements Initializable {
     }
 
     private void updateTable(){
-        try {
+
             while (true) {
+                try {
                 StudyGroup[] studyGroups1 = null;
                 if (!isInRequest) {
                     isInRequest = true;
@@ -226,10 +296,14 @@ public class TableController implements Initializable {
                     }
                     studyGroups = studyGroups1;
                     Thread.sleep(10000);
+                    if (stop){ Thread.currentThread().interrupt();
+                        return;}
                 }
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            } catch(InterruptedException e){
+                e.printStackTrace();
+            }catch (Exception e){
+
+                }
         }
     }
 
@@ -297,6 +371,7 @@ public class TableController implements Initializable {
     public void createMap() {
         boolean contains = false;
         Set<Shape> keys = shapeMap.keySet();
+
         for (Object key : keys) {
             mapPane.getChildren().remove(key);
         }
@@ -321,6 +396,7 @@ public class TableController implements Initializable {
             Shape circle = new Circle(((float) studyGroup.getStudentsCount() / 50) * canvas.getScaleX(), colorHashMap.get(studyGroup.getUser().getLogin()));
             circle.setLayoutX(mapPane.widthProperty().subtract(0).getValue() / 4 + studyGroup.getCoordinates().getX() * canvas.getScaleX());
             circle.setLayoutY(mapPane.widthProperty().subtract(0).getValue() / 4 + studyGroup.getCoordinates().getY() * canvas.getScaleY());
+            circle.setVisible(true);
             shapeMap.put(circle,studyGroup.getId());
             if(!idList.contains(studyGroup.getId())){
                 idList.add(studyGroup.getId());
@@ -340,6 +416,7 @@ public class TableController implements Initializable {
                 circleAnimation.setFromY(0);
                 circleAnimation.setToY(1);
                 circleAnimation.play();
+                circleAnimation.jumpTo(Duration.millis(5000));
             }
         }
     }
@@ -348,19 +425,19 @@ public class TableController implements Initializable {
         Shape shape = (Shape) mouseEvent.getSource();
         long id = shapeMap.get(shape);
         for (StudyGroup studyGroup : studyGroups) {
-            if (studyGroup.getId() == id) table.getItems().setAll(studyGroup);
+            if (studyGroup.getId() == id) objectTable.getItems().setAll(studyGroup);
         }
     }
 
     private void mouseClicked(javafx.scene.input.MouseEvent mouseEvent) {
         int count = 0;
         Shape shape = (Shape) mouseEvent.getSource();
-        long id1 = shapeMap.get(shape);
+        long id2 = shapeMap.get(shape);
         for (StudyGroup studyGroup : studyGroups) {
             count++;
-            if (studyGroup.getId() == id1) {
+            if (studyGroup.getId() == id2) {
                 tabPane.getSelectionModel().select(0);
-                table.getFocusModel().focus(count-1);
+                table.getSelectionModel().select(count-1);
             }
         }
     }
@@ -376,12 +453,14 @@ public class TableController implements Initializable {
     }
 
     @FXML
-    private void logOut(ActionEvent event) throws IOException {
-        Parent main = FXMLLoader.load(getClass().getResource("table.fxml"), rb);
-        Scene scene = new Scene(main);
-        Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        appStage.setScene(scene);
-        appStage.show();
+    public void logOutOnAction() throws IOException {
+        logOutButton.getScene().getWindow().hide();
+        LoginController.rb = rb;
+        Stage stage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("table.fxml"), rb);
+        stage.setScene(new Scene(root));
+        stage.show();
+        stage.setOnCloseRequest(windowEvent -> System.exit(0));
     }
 
     @FXML
@@ -389,8 +468,81 @@ public class TableController implements Initializable {
         GroupAskerController.updateMode = true;
         GroupAskerController.studyGroup = table.getItems().get(table.getSelectionModel().getFocusedIndex());
         onInsertButtonAction();
-        GroupAskerController.updateMode = false;
     }
+
+    @FXML
+    public void removeKeyButtonAction(){
+        StudyGroup studyGroup = table.getItems().get(table.getSelectionModel().getFocusedIndex());
+        Response response = null;
+        while (true) {
+            if (!isInRequest) {
+                isInRequest = true;
+                response = LoginController.client.removeKey(studyGroup.getId());
+                isInRequest = false;
+                break;
+            }
+        }
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(rb.getString("clear"));
+        alert.setHeaderText(rb.getString("answer:"));
+        alert.setContentText(rb.getString(response.getMessage()));
+        alert.showAndWait();
+    }
+
+    @FXML
+    public void replaceIfGreaterOnAction(){
+        GroupAskerController.updateMode = true;
+        GroupAskerController.ifGreaterMode = true;
+        GroupAskerController.studyGroup = table.getItems().get(table.getSelectionModel().getFocusedIndex());
+        onInsertButtonAction();
+    }
+
+
+    @FXML
+    public void removeIfLowerOnAction(){
+        try {
+            RemoveLowerController.rb = rb;
+            Stage stage = new Stage();
+            Parent root = FXMLLoader.load(getClass().getResource("removeLower.fxml"), rb);
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void changeLanguageAction(){
+        try {
+            SettingsController.changeLanguage = true;
+            logOutButton.getScene().getWindow().hide();
+            LoginController.rb = rb;
+            Stage stage = new Stage();
+            Parent root = FXMLLoader.load(getClass().getResource("settings.fxml"), rb);
+            stage.setScene(new Scene(root));
+            stage.show();
+            stage.setOnCloseRequest(windowEvent -> System.exit(0));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    public void filtrationOnAction(){}
+
+    public void infoInterface(){
+        try {
+            Stage stage = new Stage();
+            Parent root = FXMLLoader.load(getClass().getResource("info.fxml"), rb);
+            stage.setScene(new Scene(root));
+            stage.setTitle(rb.getString("info"));
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
 
 }

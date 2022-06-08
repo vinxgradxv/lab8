@@ -31,8 +31,14 @@ public class KeyAskerController {
             } else {
                 errorLabel.setVisible(false);
                 Response response = null;
-                response = LoginController.client.removeGreaterKey(key);
-
+                while (true) {
+                    if (!TableController.isInRequest){
+                        TableController.isInRequest = true;
+                        response = LoginController.client.removeGreaterKey(key);
+                        TableController.isInRequest = false;
+                        break;
+                    }
+                }
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle(rb.getString("remove greater key"));
                 alert.setHeaderText(rb.getString("answer:"));

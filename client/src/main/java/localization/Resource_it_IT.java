@@ -102,7 +102,9 @@ public class Resource_it_IT extends ListResourceBundle {
             {"key", "chiave"},
             {"input students count", "Gli studenti di input contano"},
             {"input key", "Chiave di input"},
-            {"success", "successo"}
+            {"success", "successo"},
+            {"settings", "impostazioni"},
+            {"filtration", "filtrazione"}
 
 
 

@@ -4,21 +4,16 @@ import data.*;
 import exceptions.NullValueException;
 import exceptions.NumberOutOfBoundsException;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import utils.Asker;
 import utils.Response;
 
 import java.io.IOException;
-import java.net.URL;
-import java.text.NumberFormat;
 import java.util.ResourceBundle;
 
-public class GroupAskerController implements Initializable {
+public class RemoveLowerController {
     @FXML
     public TextField keyField;
     @FXML
@@ -81,35 +76,7 @@ public class GroupAskerController implements Initializable {
     @FXML
     public Label locationZError;
 
-
-
-    public static boolean updateMode;
-
     public static ResourceBundle rb;
-
-    public static StudyGroup studyGroup;
-
-    public static boolean ifGreaterMode;
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        if(updateMode && !ifGreaterMode){
-            nameField.setText(studyGroup.getName());
-            coordinatesXField.setText(NumberFormat.getInstance(rb.getLocale()).format(studyGroup.getCoordinates().getX()));
-            coordinatesYField.setText(NumberFormat.getInstance(rb.getLocale()).format(studyGroup.getCoordinates().getY()));
-            studentsCountField.setText(NumberFormat.getInstance(rb.getLocale()).format(studyGroup.getStudentsCount()));
-            expelledStudentsField.setText(NumberFormat.getInstance(rb.getLocale()).format(studyGroup.getExpelledStudents()));
-            shouldBeExpelledField.setText(NumberFormat.getInstance(rb.getLocale()).format(studyGroup.getShouldBeExpelled()));
-            semesterField.setText(String.valueOf(studyGroup.getSemesterEnum()));
-            adminNameField.setText(studyGroup.getGroupAdmin().getName());
-            heightField.setText(NumberFormat.getInstance(rb.getLocale()).format(studyGroup.getGroupAdmin().getHeight()));
-            hairColorField.setText(String.valueOf(studyGroup.getGroupAdmin().getHairColor()));
-            nationalityField.setText(String.valueOf(studyGroup.getGroupAdmin().getNationality()));
-            locationXField.setText(NumberFormat.getInstance(rb.getLocale()).format(studyGroup.getGroupAdmin().getLocation().getX()));
-            locationYField.setText(NumberFormat.getInstance(rb.getLocale()).format(studyGroup.getGroupAdmin().getLocation().getY()));
-            locationZField.setText(NumberFormat.getInstance(rb.getLocale()).format(studyGroup.getGroupAdmin().getLocation().getZ()));
-        }
-    }
 
     @FXML
     public void onSendButtonAction(){
@@ -117,14 +84,6 @@ public class GroupAskerController implements Initializable {
             boolean perfectInput = true;
             Asker asker = new Asker();
             Long key = null;
-            if (!updateMode && !ifGreaterMode){
-            key = asker.ask(Long::valueOf, arg -> arg > 0, keyField.getText(), false);
-            if (!asker.response.equals("")){
-                perfectInput = false;
-                keyError.setText(rb.getString("wrong parameter"));
-                keyError.setVisible(true);
-            }
-            else keyError.setVisible(false);}
             String name = asker.ask(arg -> arg, arg -> arg.length() > 0, nameField.getText(), false);
             if (!asker.response.equals("")){
                 perfectInput = false;
@@ -228,48 +187,24 @@ public class GroupAskerController implements Initializable {
                         shouldBeExpelled, semester, new Person(adminName, height, hairColor, nationality, new Location(locationX, locationY, locationZ)));
 
                 Response response = null;
-                if(!updateMode && !ifGreaterMode){
+
                     while (true) {
                         if (!TableController.isInRequest) {
                             TableController.isInRequest = true;
-                            response = LoginController.client.insert(key, st);
+                            response = LoginController.client.removeLower(st);
                             TableController.isInRequest = false;
                             break;
                         }
                     }
-                }
-                else if (updateMode && !ifGreaterMode){
-                    while (true) {
-                        if (!TableController.isInRequest) {
-                            TableController.isInRequest = true;
-                            response = LoginController.client.update(studyGroup.getId(), st);
-                            TableController.isInRequest = false;
-                            break;
-                        }
-                    }
-                }
-                else{
-                    if (st.compareTo(studyGroup) > 0) {
-                        while (true) {
-                            if (!TableController.isInRequest) {
-                                TableController.isInRequest = true;
-                                response = LoginController.client.update(studyGroup.getId(), st);
-                                TableController.isInRequest = false;
-                                break;
-                            }
-                        }
-                    }
-                }
+
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle(rb.getString("insert"));
                 alert.setHeaderText(rb.getString("answer:"));
                 if (response == null){
                     alert.setContentText(rb.getString("error"));
-                } else{
-                alert.setContentText(rb.getString("success"));}
+                } else
+                    alert.setContentText(rb.getString("success"));
                 alert.showAndWait();
-                updateMode=false;
-                ifGreaterMode = false;
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -279,4 +214,5 @@ public class GroupAskerController implements Initializable {
             e.printStackTrace();
         }
     }
+
 }

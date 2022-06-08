@@ -88,7 +88,9 @@ public class Resource_es_NI extends ListResourceBundle {
             {"key", "Chiave"},
             {"input students count", "Gli stuphi di input contano"},
             {"input key", "clave de entrada"},
-            {"success", "éxito"}
+            {"success", "éxito"},
+            {"settings", "ajustes"},
+            {"filtration", "filtración"}
 
 
 

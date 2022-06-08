@@ -17,6 +17,7 @@ import java.util.ResourceBundle;
 
 public class SettingsController {
 
+    public static boolean changeLanguage;
 
     @FXML
     public ToggleGroup languange;
@@ -36,22 +37,40 @@ public class SettingsController {
     private final Locale[] locales = {Locale.US, new Locale("ru", "RU"), new Locale("sr", "SR"),Locale.ITALY, new Locale("es", "NI")};
     private final String[] languages = {"Русский", "English", "Српски jезик", "Italiano", "Español (Nicaragua)"};
 
+
     @FXML
     protected void onContButtonAction(ActionEvent event){
-                try {
-                    Locale locale = getPickedLocale();
-                    ResourceBundle rb = ResourceBundle.getBundle("localization.Resource", locale);
-                    Parent root = FXMLLoader.load(getClass().getResource("table.fxml"), rb);
-                    Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-                    Scene scene = new Scene(root);
-                    stage.setScene(scene);
-                    stage.setMinHeight(400);
-                    stage.setMinWidth(600);
-                    LoginController.rb = rb;
-                    stage.show();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        try {
+            if(!changeLanguage){
+                Locale locale = getPickedLocale();
+                ResourceBundle rb = ResourceBundle.getBundle("localization.Resource", locale);
+                Parent root = FXMLLoader.load(getClass().getResource("table.fxml"), rb);
+                Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.setMinHeight(400);
+                stage.setMinWidth(600);
+                LoginController.rb = rb;
+                stage.show();
+            }
+            else{
+                Locale locale = getPickedLocale();
+                ResourceBundle rb = ResourceBundle.getBundle("localization.Resource", locale);
+                Parent root = FXMLLoader.load(getClass().getResource("table1.fxml"), rb);
+                TableController.rb = rb;
+                Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.setMinHeight(400);
+                stage.setMinWidth(600);
+                LoginController.rb = rb;
+                TableController.rb = rb;
+                stage.show();
+            }
+            changeLanguage=false;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
     }
