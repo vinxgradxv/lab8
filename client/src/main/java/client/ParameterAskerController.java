@@ -1,6 +1,8 @@
 package client;
 
 import data.Semester;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -22,18 +24,28 @@ public class ParameterAskerController {
 
     @FXML
     public void onSendButtonAction(){
-        try {
-            semester = Semester.valueOf(parameterField.getText());
-            Response response = LoginController.client.getSemesterGreaterCount(semester);
-            errorLabel.setText(rb.getString("answer:") + " " + NumberFormat.getInstance(rb.getLocale()).format(Integer.valueOf(response.getMessage())));
-            errorLabel.setVisible(true);
-            Stage stage = (Stage) errorLabel.getScene().getWindow();
+        Task<Void> onSendAction = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                try {
+                    semester = Semester.valueOf(parameterField.getText());
+                    Response response = LoginController.client.getSemesterGreaterCount(semester);
+                    Platform.runLater(() -> {
+                        errorLabel.setText(rb.getString("answer:") + " " + NumberFormat.getInstance(rb.getLocale()).format(Integer.valueOf(response.getMessage())));
+                        errorLabel.setVisible(true);
+                        Stage stage = (Stage) errorLabel.getScene().getWindow();
 
-        }catch (IllegalArgumentException e){
-            errorLabel.setText(rb.getString("wrong parameter"));
-            errorLabel.setVisible(true);
-        }
+                    });
+                } catch (IllegalArgumentException e) {
+                    errorLabel.setText(rb.getString("wrong parameter"));
+                    errorLabel.setVisible(true);
+                }
+                return null;
+
+            }
+        };
+        Thread th = new Thread(onSendAction);
+        th.setDaemon(true);
+        th.start();
     }
-
-
 }

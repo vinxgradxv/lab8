@@ -244,22 +244,29 @@ public class TableController implements Initializable {
     public Stage infoStage;
 
     @FXML
-    public void onInfoButtonAction(){
-        try {
-            infoStage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("info.fxml"), rb);
-            infoStage.setScene(new Scene(root));
-            FXMLLoader loader = (FXMLLoader) infoStage.getScene().getUserData();
-            loader.getController();
-            infoStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Thread infoThread = new Thread(() -> {
-            Response response = LoginController.client.getInfo();
-
-            });
-        infoThread.start();
+    public void onInfoButtonAction() {
+        Task<Void> infoTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                Response response = LoginController.client.getInfo();
+                Platform.runLater(() -> {
+                            try {
+                                infoStage = new Stage();
+                                InfoController.text = response.getMessage();
+                                Parent root = FXMLLoader.load(getClass().getResource("info.fxml"), rb);
+                                infoStage.setScene(new Scene(root));
+                                infoStage.show();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                );
+                return null;
+            }
+        };
+        Thread th = new Thread(infoTask);
+        th.setDaemon(true);
+        th.start();
     }
 
     @FXML
@@ -284,6 +291,7 @@ public class TableController implements Initializable {
     private void updateTable(){
 
             while (true) {
+
                 try {
                 StudyGroup[] studyGroups1 = null;
                 if (!isInRequest) {
@@ -308,21 +316,26 @@ public class TableController implements Initializable {
     }
 
     @FXML
-    public void onClearButtonAction(){
-        Response response = null;
-        while (true) {
-            if (!isInRequest){
-                isInRequest = true;
+    public void onClearButtonAction() {
+        Task<Void> clearTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                Response response;
                 response = LoginController.client.clear();
-                isInRequest = false;
-                break;
+
+                Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle(rb.getString("clear"));
+                    alert.setHeaderText(rb.getString("answer:"));
+                    alert.setContentText(rb.getString("success"));
+                    alert.showAndWait();
+                });
+                return null;
             }
-        }
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(rb.getString("clear"));
-        alert.setHeaderText(rb.getString("answer:"));
-        alert.setContentText(rb.getString(response.getMessage()));
-        alert.showAndWait();
+        };
+        Thread th = new Thread(clearTask);
+        th.setDaemon(true);
+        th.start();
     }
 
     @FXML
@@ -472,21 +485,23 @@ public class TableController implements Initializable {
 
     @FXML
     public void removeKeyButtonAction(){
-        StudyGroup studyGroup = table.getItems().get(table.getSelectionModel().getFocusedIndex());
-        Response response = null;
-        while (true) {
-            if (!isInRequest) {
-                isInRequest = true;
+
+        Task<Void> removeTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                StudyGroup studyGroup = table.getItems().get(table.getSelectionModel().getFocusedIndex());
+                Response response;
                 response = LoginController.client.removeKey(studyGroup.getId());
-                isInRequest = false;
-                break;
+                Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle(rb.getString("clear"));
+                    alert.setHeaderText(rb.getString("answer:"));
+                    alert.setContentText(rb.getString(response.getMessage()));
+                    alert.showAndWait();
+                });
+                return null;
             }
-        }
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(rb.getString("clear"));
-        alert.setHeaderText(rb.getString("answer:"));
-        alert.setContentText(rb.getString(response.getMessage()));
-        alert.showAndWait();
+        };
     }
 
     @FXML
